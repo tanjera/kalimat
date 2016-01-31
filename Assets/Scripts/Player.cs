@@ -9,11 +9,10 @@ namespace Kalimat
 {
     [System.Serializable]
     public class Player {
-        string Username;
-        string Name;
-        string Hashpass;
-        int PointsBank;
-        int PointsTotal;
+        public string Username;
+        public string Hashpass;
+        public string Name;
+        public int Points;
     }
 
     public static class Serialize
@@ -24,6 +23,7 @@ namespace Kalimat
             FileStream fStr = File.Create(Application.persistentDataPath + "/SaveGame.klm");
             binForm.Serialize(fStr, incPlayer);
             fStr.Close();
+            Debug.Log("Player file saved.");
         }
 
         public static Player Load()
@@ -34,10 +34,14 @@ namespace Kalimat
                 FileStream fStr = File.Open(Application.persistentDataPath + "/SaveGame.klm", FileMode.Open);
                 Player outPlayer = (Player)binForm.Deserialize(fStr);
                 fStr.Close();
+                Debug.Log("Saved game exists- loaded.");
                 return outPlayer;
             }
             else
-                return null;
+            {
+                Debug.Log("No saved game found- creating new player.");
+                return new Player();
+            }
         }
     }
 }
