@@ -1,7 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using ArabicSupport;
 
+namespace Kalimat
+{
+    public static class Text
+    {
+        public static string LTRRTL(string incText, Kalimat.Vocab.Languages incLanguage)
+        {   // Fix RTL script since Unity doesn't support it...
+            if (incLanguage == Vocab.Languages.Arabic)
+                return ArabicFixer.Fix(incText);
+            else
+                return incText;
+        }
+    }
+}
 
 namespace Kalimat.Vocab
 {
@@ -51,9 +65,10 @@ namespace Kalimat.Vocab
 
     public class Test_Spanish : Stack
     {
-        public Test_Spanish() : base ("Test Stack: Spanish", "Testing, testing...", Languages.Spanish, Languages.English, Difficulties.Elementary)
+        public Test_Spanish() : base("Test Stack: Spanish", "Testing, testing...", Languages.Spanish, Languages.English, Difficulties.Elementary)
         {
-            WordPairs = new List<string[]> (new List<string[]>() {
+            WordPairs = new List<string[]>(new List<string[]>() {
+                new string[] { "Cero", "Zero" },
                 new string[] { "Uno", "One" },
                 new string[] { "Dos", "Two" },
                 new string[] { "Tres", "Three" },
@@ -64,6 +79,26 @@ namespace Kalimat.Vocab
                 new string[] { "Ocho", "Eight" },
                 new string[] { "Nueve", "Nine" },
                 new string[] { "Diez", "Ten" }
+                });
+        }
+    }
+
+    public class Test_Arabic : Stack
+    {
+        public Test_Arabic() : base("Test Stack: Arabic", "Testing, testing...", Languages.Arabic, Languages.English, Difficulties.Elementary)
+        {
+            WordPairs = new List<string[]>(new List<string[]>() {
+                new string[] { "صفر", "Zero" },
+                new string[] { "واحد", "One" },
+                new string[] { "اثنان", "Two" },
+                new string[] { "ثلاثة", "Three" },
+                new string[] { "أربعة", "Four" },
+                new string[] { "خمسة", "Five" },
+                new string[] { "ستة", "Six" },
+                new string[] { "سبعة", "Seven" },
+                new string[] { "ثمانية", "Eight" },
+                new string[] { "تسعة", "Nine" },
+                new string[] { "عشرة", "Ten" }
                 });
         }
     }

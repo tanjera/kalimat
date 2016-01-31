@@ -17,10 +17,12 @@ namespace Kalimat
 
     public static class Serialize
     {
+        static string SaveFile = Application.persistentDataPath + "/SaveGame.klm";
+
         public static void Save(Player incPlayer)
         {
             BinaryFormatter binForm = new BinaryFormatter();
-            FileStream fStr = File.Create(Application.persistentDataPath + "/SaveGame.klm");
+            FileStream fStr = File.Create(SaveFile);
             binForm.Serialize(fStr, incPlayer);
             fStr.Close();
             Debug.Log("Player file saved.");
@@ -28,10 +30,10 @@ namespace Kalimat
 
         public static Player Load()
         {
-            if (File.Exists(Application.persistentDataPath + "/SaveGame.klm"))
+            if (File.Exists(SaveFile))
             {
                 BinaryFormatter binForm = new BinaryFormatter();
-                FileStream fStr = File.Open(Application.persistentDataPath + "/SaveGame.klm", FileMode.Open);
+                FileStream fStr = File.Open(SaveFile, FileMode.Open);
                 Player outPlayer = (Player)binForm.Deserialize(fStr);
                 fStr.Close();
                 Debug.Log("Saved game exists- loaded.");
@@ -42,6 +44,17 @@ namespace Kalimat
                 Debug.Log("No saved game found- creating new player.");
                 return new Player();
             }
+        }
+
+        public static void Wipe()
+        {
+            if (File.Exists(SaveFile))
+            {
+                File.Delete(SaveFile);
+                Debug.Log("Saved game found and deleted.");
+            }
+            else
+                Debug.Log("No saved game found- deletion failed");
         }
     }
 }

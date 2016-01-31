@@ -23,7 +23,7 @@ public class ActionText : MonoBehaviour {
         thisTransform.localPosition += tickMove;
 	}
 
-    public void Rise(string incText, float incTime, Vector3 incTick)
+    public void Move(string incText, float incTime, Vector3 incTick)
     {
         thisText.text = incText;
         tickMove = incTick;

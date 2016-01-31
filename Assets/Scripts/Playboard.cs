@@ -25,12 +25,12 @@ public class Playboard : MonoBehaviour {
     }
 
     public Text WordTarget,
-                WordUp,
-                WordLeft,
-                WordRight,
-                WordDown,
-                TextPoints,
-                TextAction;
+        WordUp,
+        WordLeft,
+        WordRight,
+        WordDown,
+        TextPoints,
+        TextAction;
 
     ActionText TextAction_Script;
 
@@ -48,13 +48,14 @@ public class Playboard : MonoBehaviour {
 
     void Start ()
     {
+        // Uncomment to wipe player data...?
+        // Kalimat.Serialize.Wipe();
+
         TextAction_Script = TextAction.GetComponent<ActionText>();
         Player = Kalimat.Serialize.Load();
-        // Uncomment to wipe player data...?
-        // Player = new Kalimat.Player();
 
         // Hack: Set this TestStack as the running word stack...
-        PairStack = new Kalimat.Vocab.Test_Spanish();
+        PairStack = new Kalimat.Vocab.Test_Arabic();
 
         PairsPending = new List<int>();
         for (int i = 0; i < PairStack.WordPairs.Count; i++)
@@ -105,45 +106,46 @@ public class Playboard : MonoBehaviour {
         PairsPending.Remove(PairCurrent);
         PairAnswer = (Directions)UnityEngine.Random.Range(0, Enum.GetValues(typeof(Directions)).Length);
         PairTime = Time.time;
-        WordTarget.text = PairStack.WordPairs[PairCurrent][Kalimat.Vocab.WordPair.Target.GetHashCode()];
+
+        WordTarget.text = Kalimat.Text.LTRRTL((PairStack.WordPairs[PairCurrent][Kalimat.Vocab.WordPair.Target.GetHashCode()]), PairStack.LanguageTarget);
 
         List<string[]> unusedPairs = new List<string[]>(PairStack.WordPairs);
         unusedPairs.RemoveAt(PairCurrent);
         int unusedIndex;
 
         if (PairAnswer == Directions.Up)    // Is this WordDirection the intended answer?
-            WordUp.text = PairStack.WordPairs[PairCurrent][Kalimat.Vocab.WordPair.Source.GetHashCode()];    // If yes, display the PairCurrent word
+            WordUp.text = Kalimat.Text.LTRRTL(PairStack.WordPairs[PairCurrent][Kalimat.Vocab.WordPair.Source.GetHashCode()], PairStack.LanguageSource);    // If yes, display the PairCurrent word
         else
         {   // Or else display a random pair word from a list of unused words... then remove the used word from the unused pile.
             unusedIndex = UnityEngine.Random.Range(0, unusedPairs.Count);
-            WordUp.text = unusedPairs[unusedIndex][Kalimat.Vocab.WordPair.Source.GetHashCode()];
+            WordUp.text = Kalimat.Text.LTRRTL(unusedPairs[unusedIndex][Kalimat.Vocab.WordPair.Source.GetHashCode()], PairStack.LanguageSource);
             unusedPairs.RemoveAt(unusedIndex);
         }
 
         if (PairAnswer == Directions.Left)
-            WordLeft.text = PairStack.WordPairs[PairCurrent][Kalimat.Vocab.WordPair.Source.GetHashCode()];
+            WordLeft.text = Kalimat.Text.LTRRTL(PairStack.WordPairs[PairCurrent][Kalimat.Vocab.WordPair.Source.GetHashCode()], PairStack.LanguageSource);
         else
         {
             unusedIndex = UnityEngine.Random.Range(0, unusedPairs.Count);
-            WordLeft.text = unusedPairs[unusedIndex][Kalimat.Vocab.WordPair.Source.GetHashCode()];
+            WordLeft.text = Kalimat.Text.LTRRTL(unusedPairs[unusedIndex][Kalimat.Vocab.WordPair.Source.GetHashCode()], PairStack.LanguageSource);
             unusedPairs.RemoveAt(unusedIndex);
         }
 
         if (PairAnswer == Directions.Right)
-            WordRight.text = PairStack.WordPairs[PairCurrent][Kalimat.Vocab.WordPair.Source.GetHashCode()];
+            WordRight.text = Kalimat.Text.LTRRTL(PairStack.WordPairs[PairCurrent][Kalimat.Vocab.WordPair.Source.GetHashCode()], PairStack.LanguageSource);
         else
         {
             unusedIndex = UnityEngine.Random.Range(0, unusedPairs.Count);
-            WordRight.text = unusedPairs[unusedIndex][Kalimat.Vocab.WordPair.Source.GetHashCode()];
+            WordRight.text = Kalimat.Text.LTRRTL(unusedPairs[unusedIndex][Kalimat.Vocab.WordPair.Source.GetHashCode()], PairStack.LanguageSource);
             unusedPairs.RemoveAt(unusedIndex);
         }
 
         if (PairAnswer == Directions.Down)
-            WordDown.text = PairStack.WordPairs[PairCurrent][Kalimat.Vocab.WordPair.Source.GetHashCode()];
+            WordDown.text = Kalimat.Text.LTRRTL(PairStack.WordPairs[PairCurrent][Kalimat.Vocab.WordPair.Source.GetHashCode()], PairStack.LanguageSource);
         else
         {
             unusedIndex = UnityEngine.Random.Range(0, unusedPairs.Count);
-            WordDown.text = unusedPairs[unusedIndex][Kalimat.Vocab.WordPair.Source.GetHashCode()];
+            WordDown.text = Kalimat.Text.LTRRTL(unusedPairs[unusedIndex][Kalimat.Vocab.WordPair.Source.GetHashCode()], PairStack.LanguageSource);
             unusedPairs.RemoveAt(unusedIndex);
         }
 
@@ -184,8 +186,8 @@ public class Playboard : MonoBehaviour {
         else
             PointsEarned = -2;
 
-        TextAction_Script.Rise(String.Format("{0}{1}", PointsEarned > 0 ? "+" : "", ((int)PointsEarned).ToString()), 
-            0.5f, new Vector3(2, 3, 0));
+        TextAction_Script.Move(String.Format("{0}{1}", PointsEarned > 0 ? "+" : "", ((int)PointsEarned).ToString()), 
+            0.75f, new Vector3(2, 3, 0));
         Player.Points += (int)PointsEarned;
 
         Debug.Log(String.Format("You answered {0} - You answered in {1} seconds; points earned {2}", AnswerCorrect ? "right!" : "wrong...", AnswerTime, PointsEarned));
