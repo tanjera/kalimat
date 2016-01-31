@@ -25,10 +25,14 @@ public class Playboard : MonoBehaviour {
     }
 
     public Text WordTarget,
-        WordUp,
-        WordLeft,
-        WordRight,
-        WordDown;
+                WordUp,
+                WordLeft,
+                WordRight,
+                WordDown,
+                TextPoints,
+                TextAction;
+
+    ActionText TextAction_Script;
 
     GameStates GameState;
     Kalimat.Player Player;
@@ -44,7 +48,10 @@ public class Playboard : MonoBehaviour {
 
     void Start ()
     {
+        TextAction_Script = TextAction.GetComponent<ActionText>();
         Player = Kalimat.Serialize.Load();
+        // Uncomment to wipe player data...?
+        // Player = new Kalimat.Player();
 
         // Hack: Set this TestStack as the running word stack...
         PairStack = new Kalimat.Vocab.Test_Spanish();
@@ -63,14 +70,22 @@ public class Playboard : MonoBehaviour {
         Application.Quit();
     }
 	
+    public void MenuOpen()
+    {
+        Debug.Log("Opening menu... not implemented yet!");
+    }
+
 	void Update ()
     {
+        if (TextPoints.text != Player.Points.ToString())
+            TextPoints.text = Player.Points.ToString();
+
         switch (GameState)
         {
-            case GameStates.DisplayPair: DisplayPair(); break;
-            case GameStates.AwaitingResponse: ResponseProcess(); break;
-            case GameStates.PostAnswer: PostAnswer(); break;
-            case GameStates.StackComplete: StackComplete(); break;
+            case GameStates.DisplayPair:        DisplayPair();          break;
+            case GameStates.AwaitingResponse:   ResponseProcess();      break;
+            case GameStates.PostAnswer:         PostAnswer();           break;
+            case GameStates.StackComplete:      StackComplete();        break;
 
             case GameStates.Null:
             default:
@@ -161,23 +176,19 @@ public class Playboard : MonoBehaviour {
 
     void PostAnswer()
     {
-
         float PointsEarned = 0f;
         float AnswerTime = Time.time - PairTime;
 
         if (AnswerCorrect)
-        {
-            PointsEarned = (4 - (AnswerTime / 2)) > 1 ? (4 - (AnswerTime / 2)) : 1;
-            PointsEarned *= (PairStack.Difficulty.GetHashCode() + 1);
-        }
+            PointsEarned = (4 - (AnswerTime / 2)) > 1 ? (4 - (AnswerTime / 2)) : 1;     // 3pt : 0-2 sec;  2pt : 2-4sec;  1pt : >= 4 sec
         else
-            PointsEarned = -1;
+            PointsEarned = -2;
 
+        TextAction_Script.Rise(String.Format("{0}{1}", PointsEarned > 0 ? "+" : "", ((int)PointsEarned).ToString()), 
+            0.5f, new Vector3(2, 3, 0));
         Player.Points += (int)PointsEarned;
 
-
-        Debug.Log(String.Format("You answered in {0} seconds; points earned {1}", AnswerTime, PointsEarned));
-        Debug.Log(String.Format("You answered {0} - Total Points: {1}", AnswerCorrect ? "right!" : "wrong...", Player.Points));
+        Debug.Log(String.Format("You answered {0} - You answered in {1} seconds; points earned {2}", AnswerCorrect ? "right!" : "wrong...", AnswerTime, PointsEarned));
         GameState = GameStates.DisplayPair;
     }
 
