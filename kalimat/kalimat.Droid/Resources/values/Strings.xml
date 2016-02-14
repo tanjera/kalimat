@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="">Hello World, Click Me!</string>
-  <string name="app_name">kalimat.Droid</string>
-  <string name="largeText">Large Text</string>
+	<string name="hello">Hello World, Click Me!</string>
+	<string name="app_name">Kalimat.Droid</string>
 </resources>

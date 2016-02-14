@@ -4,11 +4,11 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>2a42ab27-fe5b-4151-88c7-af858b5e30cb</ProjectGuid>
+    <ProjectGuid>aa856631-b884-4d92-9228-221ec5b307ef</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>kalimat.iOS</RootNamespace>
+    <RootNamespace>Kalimat.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>kalimatiOS</AssemblyName>
+    <AssemblyName>KalimatiOS</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -139,6 +139,6 @@
       <DependentUpon>ViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
-  <Import Project="..\kalimat\kalimat.projitems" Label="Shared" Condition="Exists('..\kalimat\kalimat.projitems')" />
+  <Import Project="..\Kalimat\Kalimat.projitems" Label="Shared" Condition="Exists('..\Kalimat\Kalimat.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

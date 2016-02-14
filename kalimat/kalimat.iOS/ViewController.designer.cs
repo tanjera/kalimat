@@ -7,7 +7,7 @@ using Foundation;
 using System.CodeDom.Compiler;
 using UIKit;
 
-namespace kalimat.iOS
+namespace Kalimat.iOS
 {
 	[Register ("ViewController")]
 	partial class ViewController

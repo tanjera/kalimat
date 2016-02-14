@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>kalimat.iOS</string>
+	<string>Kalimat.iOS</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.your-company.kalimat.iOS</string>
+	<string>com.your-company.Kalimat.iOS</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>

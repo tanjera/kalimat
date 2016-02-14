@@ -5,7 +5,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
-namespace kalimat.iOS
+namespace Kalimat.iOS
 {
 	public class Application
 	{

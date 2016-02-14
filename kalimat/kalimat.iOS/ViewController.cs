@@ -2,7 +2,7 @@
 
 using UIKit;
 
-namespace kalimat.iOS
+namespace Kalimat.iOS
 {
 	public partial class ViewController : UIViewController
 	{
