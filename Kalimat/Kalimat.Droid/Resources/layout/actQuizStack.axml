@@ -81,15 +81,11 @@
     </TableRow>
     <TableRow
         android:layout_height="wrap_content">
-        <TextView
+        <ProgressBar
+            android:id="@+id/pbrProgress"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/txtProgress" />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:id="@+id/txtResult" />
+            android:layout_height="wrap_content"
+            style="@android:style/Widget.ProgressBar.Horizontal" />
     </TableRow>
 </TableLayout>

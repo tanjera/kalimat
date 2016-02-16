@@ -9,12 +9,12 @@ using Android.OS;
 
 namespace Kalimat.Droid
 {
-	[Activity (Label = "Kalimat", MainLauncher = true, Icon = "@drawable/icon")]
+	[Activity (Label = "Select a language to study.")]
 	public class actSelectLanguage : ListActivity
 	{
-		protected override void OnCreate (Bundle bundle)
+		protected override void OnCreate (Bundle savedInstanceState)
 		{
-			base.OnCreate (bundle);
+			base.OnCreate (savedInstanceState);
             ListAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, Enum.GetNames(typeof(Kalimat.Vocabulary.Languages)));
 
             ListView.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => {

@@ -44,10 +44,12 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="actQuizFinish.cs" />
     <Compile Include="actSelectLanguage.cs" />
     <Compile Include="actSelectStack.cs" />
     <Compile Include="actQuizStack.cs" />
     <Compile Include="actViewStack.cs" />
+    <Compile Include="actLogin.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -56,6 +58,12 @@
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
     <AndroidResource Include="Resources\layout\actViewStack.axml" />
+    <AndroidResource Include="Resources\layout\actQuizFinish.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\actLogin.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />

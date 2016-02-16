@@ -23,9 +23,12 @@ namespace Kalimat.Droid
         Vocabulary.Stack thisStack;
         Random thisRandom = new Random();
         int pairCurrent;            // Index of the current word pair
-        int pairsRemaining;         // Count of pairs left to answer
         List<int> stackPending;     // List of all word pair indices that need answering
         Directions pairAnswer;      // Direction to swipe to match the pair correctly
+        DateTime pairTime;          // Used for measuring how many seconds each answer takes
+        int totalCorrect = 0,       // Total amount of pairs answered correctly
+            totalScore = 0;         // Score using scoring algorithm
+
 
         Button btnWordUp,
             btnWordLeft,
@@ -33,9 +36,7 @@ namespace Kalimat.Droid
             btnWordDown,
             btnWordCenter;
 
-        TextView txtProgress,
-            txtResult;
-
+        ProgressBar pbrProgress;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -49,8 +50,7 @@ namespace Kalimat.Droid
 
             this.Title = String.Format("Quiz: {0}", thisStack.Title);
 
-            txtProgress = FindViewById<TextView>(Resource.Id.txtProgress);
-            txtResult = FindViewById<TextView>(Resource.Id.txtResult);
+            pbrProgress = FindViewById<ProgressBar>(Resource.Id.pbrProgress);
 
             btnWordUp = FindViewById<Button>(Resource.Id.btnWordUp);
             btnWordLeft = FindViewById<Button>(Resource.Id.btnWordLeft);
@@ -67,7 +67,6 @@ namespace Kalimat.Droid
             stackPending = new List<int>();
             for (int i = 0; i < thisStack.WordPairs.Count; i++)
                 stackPending.Add(i);
-            pairsRemaining = stackPending.Count;
 
             // And display the first pair!
             DisplayPair();
@@ -84,6 +83,7 @@ namespace Kalimat.Droid
             pairCurrent = stackPending[thisRandom.Next(0, stackPending.Count)];
             stackPending.Remove(pairCurrent);
             pairAnswer = (Directions)thisRandom.Next(0, Enum.GetValues(typeof(Directions)).Length);
+            pairTime = DateTime.Now;
 
             btnWordCenter.Text = thisStack.WordPairs[pairCurrent][Vocabulary.WordPair.Target.GetHashCode()];
 
@@ -133,26 +133,32 @@ namespace Kalimat.Droid
             Android.Graphics.Drawables.Drawable incBackground = incButton.Background;   // Store the default background texture
 
             if (pairAnswer == incDirection)
+            {
                 incButton.SetBackgroundColor(Android.Graphics.Color.Green);
+                totalCorrect++;
+                TimeSpan tDiff = DateTime.Now.Subtract(pairTime);
+                totalScore += (4 - (tDiff.TotalSeconds / 2)) > 1 ? (int)(4 - (tDiff.TotalSeconds / 2)) : 1;     // 3pt : 0-2 sec;  2pt : 2-4sec;  1pt : >= 4 sec
+            }
             else
+            {
                 incButton.SetBackgroundColor(Android.Graphics.Color.Red);
+                totalScore -= 2;
+            }
 
             await Task.Delay(750);    // Delay to give the user time to see the result
+            pbrProgress.Progress = ((thisStack.WordPairs.Count * 100) - (stackPending.Count * 100)) / thisStack.WordPairs.Count;
             incButton.Background = incBackground;   // Reset the background to the default
             DisplayPair();      // Then display another word set
-
-
-            /* Old scoring algorithm:
-                if (AnswerCorrect)
-                    PointsEarned = (4 - (AnswerTime / 2)) > 1 ? (4 - (AnswerTime / 2)) : 1;     // 3pt : 0-2 sec;  2pt : 2-4sec;  1pt : >= 4 sec
-                else
-                    PointsEarned = -2;
-            */
         }
 
         void StackComplete()
         {
-            txtProgress.Text = "Stack complete!";
+            Intent intAct = new Intent(this, typeof(actQuizFinish));
+            intAct.PutExtra("Stack", Intent.GetStringExtra("Stack")); // Passing stack name, passed from previous activity
+            intAct.PutExtra("TotalCorrect", totalCorrect);
+            intAct.PutExtra("TotalScore", totalCorrect);
+            StartActivity(intAct);
+            Finish();
         }
     }
 }
