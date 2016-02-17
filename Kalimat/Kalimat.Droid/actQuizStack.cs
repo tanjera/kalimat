@@ -20,7 +20,7 @@ namespace Kalimat.Droid
         public enum Directions
         { Up, Left, Right, Down }
 
-        Vocabulary.Stack thisStack;
+        Stack thisStack;
         Random thisRandom = new Random();
         int pairCurrent;            // Index of the current word pair
         List<int> stackPending;     // List of all word pair indices that need answering
@@ -45,7 +45,7 @@ namespace Kalimat.Droid
             SetContentView(Resource.Layout.actQuizStack);
             string incStackName = Intent.GetStringExtra("Stack");
 
-            Vocabulary.Stacks mainStacks = new Vocabulary.Stacks();
+            Stacks mainStacks = new Stacks();
             thisStack = mainStacks.GetStack(incStackName);
 
             this.Title = String.Format("Quiz: {0}", thisStack.Title);
@@ -85,45 +85,45 @@ namespace Kalimat.Droid
             pairAnswer = (Directions)thisRandom.Next(0, Enum.GetValues(typeof(Directions)).Length);
             pairTime = DateTime.Now;
 
-            btnWordCenter.Text = thisStack.WordPairs[pairCurrent][Vocabulary.WordPair.Target.GetHashCode()];
+            btnWordCenter.Text = thisStack.WordPairs[pairCurrent][WordPair.Target.GetHashCode()];
 
             List<string[]> unusedPairs = new List<string[]>(thisStack.WordPairs);
             unusedPairs.RemoveAt(pairCurrent);
             int unusedIndex;
 
             if (pairAnswer == Directions.Up)    // Is this WordDirection the intended answer?
-                btnWordUp.Text = thisStack.WordPairs[pairCurrent][Vocabulary.WordPair.Source.GetHashCode()];    // If yes, display the PairCurrent word
+                btnWordUp.Text = thisStack.WordPairs[pairCurrent][WordPair.Source.GetHashCode()];    // If yes, display the PairCurrent word
             else
             {   // Or else display a random pair word from a list of unused words... then remove the used word from the unused pile.
                 unusedIndex = thisRandom.Next(0, unusedPairs.Count);
-                btnWordUp.Text = unusedPairs[unusedIndex][Vocabulary.WordPair.Source.GetHashCode()];
+                btnWordUp.Text = unusedPairs[unusedIndex][WordPair.Source.GetHashCode()];
                 unusedPairs.RemoveAt(unusedIndex);
             }
 
             if (pairAnswer == Directions.Left)
-                btnWordLeft.Text = thisStack.WordPairs[pairCurrent][Vocabulary.WordPair.Source.GetHashCode()];
+                btnWordLeft.Text = thisStack.WordPairs[pairCurrent][WordPair.Source.GetHashCode()];
             else
             {
                 unusedIndex = thisRandom.Next(0, unusedPairs.Count);
-                btnWordLeft.Text = unusedPairs[unusedIndex][Vocabulary.WordPair.Source.GetHashCode()];
+                btnWordLeft.Text = unusedPairs[unusedIndex][WordPair.Source.GetHashCode()];
                 unusedPairs.RemoveAt(unusedIndex);
             }
 
             if (pairAnswer == Directions.Right)
-                btnWordRight.Text = thisStack.WordPairs[pairCurrent][Vocabulary.WordPair.Source.GetHashCode()];
+                btnWordRight.Text = thisStack.WordPairs[pairCurrent][WordPair.Source.GetHashCode()];
             else
             {
                 unusedIndex = thisRandom.Next(0, unusedPairs.Count);
-                btnWordRight.Text = unusedPairs[unusedIndex][Vocabulary.WordPair.Source.GetHashCode()];
+                btnWordRight.Text = unusedPairs[unusedIndex][WordPair.Source.GetHashCode()];
                 unusedPairs.RemoveAt(unusedIndex);
             }
 
             if (pairAnswer == Directions.Down)
-                btnWordDown.Text = thisStack.WordPairs[pairCurrent][Vocabulary.WordPair.Source.GetHashCode()];
+                btnWordDown.Text = thisStack.WordPairs[pairCurrent][WordPair.Source.GetHashCode()];
             else
             {
                 unusedIndex = thisRandom.Next(0, unusedPairs.Count);
-                btnWordDown.Text = unusedPairs[unusedIndex][Vocabulary.WordPair.Source.GetHashCode()];
+                btnWordDown.Text = unusedPairs[unusedIndex][WordPair.Source.GetHashCode()];
                 unusedPairs.RemoveAt(unusedIndex);
             }
         }
@@ -157,6 +157,7 @@ namespace Kalimat.Droid
             intAct.PutExtra("Stack", Intent.GetStringExtra("Stack")); // Passing stack name, passed from previous activity
             intAct.PutExtra("TotalCorrect", totalCorrect);
             intAct.PutExtra("TotalScore", totalCorrect);
+            intAct.PutExtras(Intent);   // Include existing info- username, etc.
             StartActivity(intAct);
             Finish();
         }

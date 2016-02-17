@@ -9,10 +9,14 @@
     <Import_RootNamespace>Kalimat</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Data.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data_Local.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data_Server.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SQLite.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Vocabulary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Library.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Library_Stack.xml" />
   </ItemGroup>
 </Project>

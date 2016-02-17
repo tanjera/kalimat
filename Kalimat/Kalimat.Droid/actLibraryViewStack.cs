@@ -14,7 +14,7 @@ using Android.Widget;
 namespace Kalimat.Droid
 {
     [Activity(Label = "Viewing Stack")]
-    public class actViewStack : Activity
+    public class actLibraryViewStack : Activity
     {
         bool showAnswers = true;
 
@@ -22,11 +22,12 @@ namespace Kalimat.Droid
         {
             base.OnCreate(savedInstanceState);
 
-            SetContentView(Resource.Layout.actViewStack);
+            SetContentView(Resource.Layout.actLibraryViewStack);
             string incStackName = Intent.GetStringExtra("Stack");
 
-            Vocabulary.Stacks mainStacks = new Vocabulary.Stacks();
-            Vocabulary.Stack thisStack = mainStacks.GetStack(incStackName);
+            Stacks mainStacks = new Stacks();
+            Stack thisStack = mainStacks.GetStack(incStackName);
+
             this.Title = thisStack.Title;
 
             ListView lvWords = FindViewById<ListView>(Resource.Id.listWordPairs);
@@ -46,6 +47,7 @@ namespace Kalimat.Droid
             {
                 Intent intAct = new Intent(this, typeof(actQuizStack));
                 intAct.PutExtra("Stack", Intent.GetStringExtra("Stack"));
+                intAct.PutExtras(Intent);   // Include existing info- username, etc.
                 StartActivity(intAct);
             };
         }

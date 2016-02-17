@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using SQLite;
 
-namespace Kalimat.Vocabulary
+namespace Kalimat
 {
     public class Stack
     {
+        public string UID;
         public string Title;
         public string Description;
         public string Source;
         public string SourceDescription;
+        public int Price_Points;
+        public double Price_Dollars;
         public Languages Language;
-        public List<string[]> WordPairs;
+        public List<string[]> WordPairs = new List<string[]>();
 
+        public Stack() { }
         public Stack(string incTitle, string incDescription, Languages incLanguage)
         {
             Title = incTitle;
@@ -54,8 +59,6 @@ namespace Kalimat.Vocabulary
     {
         public List<Stack> Listing = new List<Stack>
         {
-            new Spanish_Numbers(),
-            new Arabic_Numbers(),
             new Arabic_BeautyAndTheBeast()
         };
 
@@ -69,51 +72,11 @@ namespace Kalimat.Vocabulary
         }
     }
 
-    public class Spanish_Numbers : Stack
-    {
-        public Spanish_Numbers() : base("Numbers", "One to ten.", Languages.Spanish)
-        {
-            WordPairs = new List<string[]>(new List<string[]>() {
-                new string[] { "Cero", "Zero" },
-                new string[] { "Uno", "One" },
-                new string[] { "Dos", "Two" },
-                new string[] { "Tres", "Three" },
-                new string[] { "Cuatro", "Four" },
-                new string[] { "Cinco", "Five" },
-                new string[] { "Seis", "Six" },
-                new string[] { "Siete", "Seven" },
-                new string[] { "Ocho", "Eight" },
-                new string[] { "Nueve", "Nine" },
-                new string[] { "Diez", "Ten" }
-                });
-        }
-    }
-
-    public class Arabic_Numbers : Stack
-    {
-        public Arabic_Numbers() : base("Numbers", "One to ten.", Languages.Arabic)
-        {
-            WordPairs = new List<string[]>(new List<string[]>() {
-                new string[] { "صفر", "Zero" },
-                new string[] { "واحد", "One" },
-                new string[] { "اثنان", "Two" },
-                new string[] { "ثلاثة", "Three" },
-                new string[] { "أربعة", "Four" },
-                new string[] { "خمسة", "Five" },
-                new string[] { "ستة", "Six" },
-                new string[] { "سبعة", "Seven" },
-                new string[] { "ثمانية", "Eight" },
-                new string[] { "تسعة", "Nine" },
-                new string[] { "عشرة", "Ten" }
-                });
-        }
-    }
-
     public class Arabic_BeautyAndTheBeast : Stack
     {
         public Arabic_BeautyAndTheBeast() : base("Beauty and the Beast", "Vocabulary from the short story.", Languages.Arabic)
         {
-            WordPairs = new List<string[]>(new List<string[]>() {
+            WordPairs = new List<string[]> {
                 new string[] { "وحش", "beast" },
                 new string[] { "مَرَت", "passed, go by" },
                 new string[] { "قَرْية", "village" },
@@ -139,7 +102,7 @@ namespace Kalimat.Vocabulary
                 new string[] { "أنْحاءِ", "around" },
                 new string[] { "سَتُصْبِح", "will become" },
                 new string[] { "يومًا ما", "one day" }
-                });
+                };
         }
     }
 }

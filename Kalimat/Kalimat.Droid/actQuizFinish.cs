@@ -22,8 +22,8 @@ namespace Kalimat.Droid
             SetContentView(Resource.Layout.actQuizFinish);
 
             string incStackName = Intent.GetStringExtra("Stack");
-            Vocabulary.Stacks mainStacks = new Vocabulary.Stacks();
-            Vocabulary.Stack thisStack = mainStacks.GetStack(incStackName);
+            Stacks mainStacks = new Stacks();
+            Stack thisStack = mainStacks.GetStack(incStackName);
 
             TextView txtTitle = FindViewById<TextView>(Resource.Id.txtTitle);
             TextView txtScores = FindViewById<TextView>(Resource.Id.txtScores);

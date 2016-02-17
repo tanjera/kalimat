@@ -32,7 +32,7 @@
     }
    if($Act == "Register"){
        
-        $checkuser = mysql_query("SELECT username FROM players WHERE username ='$nick'"); 
+        $checkuser = mysql_query("SELECT Username FROM players WHERE username ='$nick'"); 
         $username_exist = mysql_num_rows($checkuser);
         if($username_exist > 0)
         {

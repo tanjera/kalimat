@@ -41,10 +41,9 @@ namespace Kalimat.Droid.Resources.layout
                 alertExisting.SetMessage(String.Format("Would you like to continue as {0}?", thisPlayer.Username));
                 alertExisting.SetPositiveButton("Yes", delegate 
                 {
-                    Intent intAct = new Intent(this, typeof(actSelectLanguage));
+                    Intent intAct = new Intent(this, typeof(actMainMenu));
                     intAct.PutExtra("Username", thisPlayer.Username);
                     StartActivity(intAct);
-                    Finish();
                 });
                 alertExisting.SetNegativeButton("No", delegate { });
                 alertExisting.Show();
@@ -62,10 +61,9 @@ namespace Kalimat.Droid.Resources.layout
                     alertLogin.SetPositiveButton("OK", delegate 
                     {
                         dLoc.AddPlayer(new Player(txtUsername.Text));
-                        Intent intAct = new Intent(this, typeof(actSelectLanguage));
+                        Intent intAct = new Intent(this, typeof(actMainMenu));
                         intAct.PutExtra("Username", txtUsername.Text);
                         StartActivity(intAct);
-                        Finish();
                     });
                 }
                 else

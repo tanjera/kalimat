@@ -44,11 +44,15 @@
     <Reference Include="Mono.Android" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="actStoreViewStack.cs" />
+    <Compile Include="actStoreListStacks.cs" />
+    <Compile Include="actStoreListLanguages.cs" />
     <Compile Include="actQuizFinish.cs" />
-    <Compile Include="actSelectLanguage.cs" />
-    <Compile Include="actSelectStack.cs" />
+    <Compile Include="actMainMenu.cs" />
+    <Compile Include="actLibraryListStacks.cs" />
     <Compile Include="actQuizStack.cs" />
-    <Compile Include="actViewStack.cs" />
+    <Compile Include="actLibraryListLanguages.cs" />
+    <Compile Include="actLibraryViewStack.cs" />
     <Compile Include="actLogin.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -57,13 +61,17 @@
     <None Include="Resources\AboutResources.txt" />
     <None Include="Properties\AndroidManifest.xml" />
     <None Include="Assets\AboutAssets.txt" />
-    <AndroidResource Include="Resources\layout\actViewStack.axml" />
+    <AndroidResource Include="Resources\layout\actLibraryViewStack.axml" />
     <AndroidResource Include="Resources\layout\actQuizFinish.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\actLogin.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
+    <AndroidResource Include="Resources\layout\actMainMenu.axml">
+      <SubType>AndroidResource</SubType>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\actStoreViewStack.axml" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\values\Strings.xml" />

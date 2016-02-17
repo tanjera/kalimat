@@ -13,13 +13,13 @@ using Android.Widget;
 namespace Kalimat.Droid
 {
     [Activity(Label = "Pick a Vocabulary Stack")]
-    public class actSelectStack : ListActivity
+    public class actLibraryListStacks : ListActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
-            List<Kalimat.Vocabulary.Stack> langStack = new List<Kalimat.Vocabulary.Stack>(new Kalimat.Vocabulary.Stacks().Listing);
+            List<Stack> langStack = new List<Stack>(new Stacks().Listing);
             for (int i = langStack.Count - 1; i >= 0; i--)
                 if (langStack[i].Language.ToString() != Intent.GetStringExtra("Language"))
                     langStack.RemoveAt(i);
@@ -27,8 +27,9 @@ namespace Kalimat.Droid
             ListAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, langStack.Select(i => i.Title).ToArray());
 
             ListView.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => {
-                Intent intAct = new Intent(this, typeof(actViewStack));
+                Intent intAct = new Intent(this, typeof(actLibraryViewStack));
                 intAct.PutExtra("Stack", langStack[e.Position].ToString());
+                intAct.PutExtras(Intent);   // Include existing info- username, etc.
                 StartActivity(intAct);
             };
         }

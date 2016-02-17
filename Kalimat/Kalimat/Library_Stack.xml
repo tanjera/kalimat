@@ -1,0 +1,53 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<stack>
+  <uid>arabic-numbers-8656423</uid>
+  <title>Numbers</title>
+  <description>Zero to ten.</description>
+  <language>Arabic</language>
+  <price_points>0</price_points>
+  <price_dollars>0.0</price_dollars>
+  <word_pair>
+    <word_source>صفر</word_source>
+    <word_target>Zero</word_target>
+  </word_pair>
+  <word_pair>
+    <word_source>واحد</word_source>
+    <word_target>One</word_target>
+  </word_pair>
+  <word_pair>
+    <word_source>اثنان</word_source>
+    <word_target>Two</word_target>
+  </word_pair>
+  <word_pair>
+    <word_source>ثلاثة</word_source>
+    <word_target>Three</word_target>
+  </word_pair>
+  <word_pair>
+    <word_source>أربعة</word_source>
+    <word_target>Four</word_target>
+  </word_pair>
+  <word_pair>
+    <word_source>خمسة</word_source>
+    <word_target>Five</word_target>
+  </word_pair>
+  <word_pair>
+    <word_source>ستة</word_source>
+    <word_target>Six</word_target>
+  </word_pair>
+  <word_pair>
+    <word_source>سبعة</word_source>
+    <word_target>Seven</word_target>
+  </word_pair>
+  <word_pair>
+    <word_source>ثمانية</word_source>
+    <word_target>Eight</word_target>
+  </word_pair>
+  <word_pair>
+    <word_source>تسعة</word_source>
+    <word_target>Nine</word_target>
+  </word_pair>
+  <word_pair>
+    <word_source>عشرة</word_source>
+    <word_target>Ten</word_target>
+  </word_pair>
+</stack>
