@@ -19,16 +19,17 @@ namespace Kalimat.Droid
         {
             base.OnCreate(savedInstanceState);
 
-            List<Stack> langStack = new List<Stack>(new Stacks().Listing);
-            for (int i = langStack.Count - 1; i >= 0; i--)
-                if (langStack[i].Language.ToString() != Intent.GetStringExtra("Language"))
-                    langStack.RemoveAt(i);
+            Data_Local dLoc = new Data_Local();
+            List<Stack> listStacks = dLoc.List_Stacks_ByLanguage(Intent.GetStringExtra("Language"));
 
-            ListAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, langStack.Select(i => i.Title).ToArray());
+            List<string> listUIDs = new List<string>();
+            listStacks.ForEach(obj => listUIDs.Add(obj.UID));
+
+            ListAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, listUIDs.ToArray());
 
             ListView.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => {
                 Intent intAct = new Intent(this, typeof(actLibraryViewStack));
-                intAct.PutExtra("Stack", langStack[e.Position].ToString());
+                intAct.PutExtra("StackUID", listUIDs[e.Position].ToString());
                 intAct.PutExtras(Intent);   // Include existing info- username, etc.
                 StartActivity(intAct);
             };

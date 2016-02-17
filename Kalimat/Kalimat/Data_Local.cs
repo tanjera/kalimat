@@ -2,7 +2,6 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
-using System.Text;
 using System.Xml;
 using SQLite;
 
@@ -14,7 +13,7 @@ namespace Kalimat
         Environment.GetFolderPath(Environment.SpecialFolder.Personal),
         "kalimat.db3");
 
-        public Player GetPlayer()
+        public Player Player_Get()
         {
             SQLiteConnection db = new SQLiteConnection(dbPath);
             db.CreateTable<Player>();
@@ -33,8 +32,7 @@ namespace Kalimat
                 return toReturn;
             }
         }
-
-        public bool AddPlayer(Player incPlayer)
+        public bool Player_Exists(Player incPlayer)
         {
             SQLiteConnection db = new SQLiteConnection(dbPath);
             db.CreateTable<Player>();
@@ -44,25 +42,81 @@ namespace Kalimat
                 if (eachPlayer == incPlayer)
                 {
                     db.Close();
-                    return false;
+                    return true;    // Return player exists!
                 }
 
+            db.Close();
+            return false;   // Return player does not exist
+        }
+        public bool Player_Add(Player incPlayer)
+        {
+            if (Player_Exists(incPlayer))
+                return false;
+
+            SQLiteConnection db = new SQLiteConnection(dbPath);
+            db.CreateTable<Player>();
             db.Insert(incPlayer);
             db.Close();
             return true;
         }
 
-
-        /*  SQLite does not support List<string> or string[][]...
-            until wordpairs are stores as formatted strings (XML?), need to hardcode
-            this & actLibraryLanguages/actLibraryStacks
-
-
-        public List<Languages> GetLibrary_LanguageList()
+        public Stack Stack_Get(string incUID)
         {
             SQLiteConnection db = new SQLiteConnection(dbPath);
             db.CreateTable<Stack>();
-            List<Languages> listLangs = new List<Languages>();
+
+            TableQuery<Stack> qryStack = db.Table<Stack>();
+            foreach (Stack eachStack in qryStack)
+                if (eachStack.UID == incUID)
+                {
+                    db.Close();
+                    return eachStack;
+                }
+
+            db.Close();
+            return null;
+        }
+        public bool Stack_Exists(string incUID)
+        {
+            SQLiteConnection db = new SQLiteConnection(dbPath);
+            db.CreateTable<Stack>();
+
+            TableQuery<Stack> qryStack = db.Table<Stack>();
+            foreach (Stack eachStack in qryStack)
+                if (eachStack.UID == incUID)
+                {
+                    db.Close();
+                    return true;
+                }
+
+            db.Close();
+            return false;
+        }
+        public bool Stack_Purchase(string incUID)
+        {
+            if (Stack_Exists(incUID))
+                return false;   // Purchase failed, stack already exists locally
+
+            SQLiteConnection db = new SQLiteConnection(dbPath);
+            Data_Server dServ = new Data_Server();
+
+            Stack incStack = dServ.Get_Stack(incUID);
+
+            if (incStack.Price_Points > 0 || incStack.Price_Dollars > 0)
+                // IMPLEMENT PURCHASING HERE!!!!
+                return false;
+
+            db.CreateTable<Stack>();
+            db.Insert(incStack);
+            db.Close();
+            return true;
+        }
+
+        public List<string> List_Languages()
+        {
+            SQLiteConnection db = new SQLiteConnection(dbPath);
+            db.CreateTable<Stack>();
+            List<string> listLangs = new List<string>();
 
             TableQuery<Stack> qryStacks = db.Table<Stack>();
             foreach (Stack eachStack in qryStacks)
@@ -72,15 +126,7 @@ namespace Kalimat
             db.Close();
             return listLangs;
         }
-        public string[] GetLibrary_LanguageStrings()
-        {
-            List<Languages> listLangs = GetLibrary_LanguageList();
-            List<string> listStrings = new List<string>();
-            listLangs.ForEach(obj => listStrings.Add(obj.ToString()));
-            return listStrings.ToArray();
-        }
-
-        public List<Stack> GetLibrary_StacksOfLanguage(Languages incLang)
+        public List<Stack> List_Stacks_ByLanguage(string incLang)
         {
             SQLiteConnection db = new SQLiteConnection(dbPath);
             db.CreateTable<Stack>();
@@ -94,6 +140,5 @@ namespace Kalimat
             db.Close();
             return listStacks;
         }
-        */
     }
 }

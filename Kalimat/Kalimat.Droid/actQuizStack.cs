@@ -41,12 +41,10 @@ namespace Kalimat.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
             SetContentView(Resource.Layout.actQuizStack);
-            string incStackName = Intent.GetStringExtra("Stack");
 
-            Stacks mainStacks = new Stacks();
-            thisStack = mainStacks.GetStack(incStackName);
+            Data_Local dLoc = new Data_Local();
+            thisStack = dLoc.Stack_Get(Intent.GetStringExtra("StackUID"));
 
             this.Title = String.Format("Quiz: {0}", thisStack.Title);
 
@@ -65,7 +63,7 @@ namespace Kalimat.Droid
 
             // Create the stack of pairs (notecards) to quiz on
             stackPending = new List<int>();
-            for (int i = 0; i < thisStack.WordPairs.Count; i++)
+            for (int i = 0; i < thisStack.WordPairs().Count; i++)
                 stackPending.Add(i);
 
             // And display the first pair!
@@ -85,14 +83,14 @@ namespace Kalimat.Droid
             pairAnswer = (Directions)thisRandom.Next(0, Enum.GetValues(typeof(Directions)).Length);
             pairTime = DateTime.Now;
 
-            btnWordCenter.Text = thisStack.WordPairs[pairCurrent][WordPair.Target.GetHashCode()];
+            btnWordCenter.Text = thisStack.WordPairs()[pairCurrent][WordPair.Target.GetHashCode()];
 
-            List<string[]> unusedPairs = new List<string[]>(thisStack.WordPairs);
+            List<string[]> unusedPairs = new List<string[]>(thisStack.WordPairs());
             unusedPairs.RemoveAt(pairCurrent);
             int unusedIndex;
 
             if (pairAnswer == Directions.Up)    // Is this WordDirection the intended answer?
-                btnWordUp.Text = thisStack.WordPairs[pairCurrent][WordPair.Source.GetHashCode()];    // If yes, display the PairCurrent word
+                btnWordUp.Text = thisStack.WordPairs()[pairCurrent][WordPair.Source.GetHashCode()];    // If yes, display the PairCurrent word
             else
             {   // Or else display a random pair word from a list of unused words... then remove the used word from the unused pile.
                 unusedIndex = thisRandom.Next(0, unusedPairs.Count);
@@ -101,7 +99,7 @@ namespace Kalimat.Droid
             }
 
             if (pairAnswer == Directions.Left)
-                btnWordLeft.Text = thisStack.WordPairs[pairCurrent][WordPair.Source.GetHashCode()];
+                btnWordLeft.Text = thisStack.WordPairs()[pairCurrent][WordPair.Source.GetHashCode()];
             else
             {
                 unusedIndex = thisRandom.Next(0, unusedPairs.Count);
@@ -110,7 +108,7 @@ namespace Kalimat.Droid
             }
 
             if (pairAnswer == Directions.Right)
-                btnWordRight.Text = thisStack.WordPairs[pairCurrent][WordPair.Source.GetHashCode()];
+                btnWordRight.Text = thisStack.WordPairs()[pairCurrent][WordPair.Source.GetHashCode()];
             else
             {
                 unusedIndex = thisRandom.Next(0, unusedPairs.Count);
@@ -119,7 +117,7 @@ namespace Kalimat.Droid
             }
 
             if (pairAnswer == Directions.Down)
-                btnWordDown.Text = thisStack.WordPairs[pairCurrent][WordPair.Source.GetHashCode()];
+                btnWordDown.Text = thisStack.WordPairs()[pairCurrent][WordPair.Source.GetHashCode()];
             else
             {
                 unusedIndex = thisRandom.Next(0, unusedPairs.Count);
@@ -146,7 +144,7 @@ namespace Kalimat.Droid
             }
 
             await Task.Delay(750);    // Delay to give the user time to see the result
-            pbrProgress.Progress = ((thisStack.WordPairs.Count * 100) - (stackPending.Count * 100)) / thisStack.WordPairs.Count;
+            pbrProgress.Progress = ((thisStack.WordPairs().Count * 100) - (stackPending.Count * 100)) / thisStack.WordPairs().Count;
             incButton.Background = incBackground;   // Reset the background to the default
             DisplayPair();      // Then display another word set
         }
@@ -154,7 +152,6 @@ namespace Kalimat.Droid
         void StackComplete()
         {
             Intent intAct = new Intent(this, typeof(actQuizFinish));
-            intAct.PutExtra("Stack", Intent.GetStringExtra("Stack")); // Passing stack name, passed from previous activity
             intAct.PutExtra("TotalCorrect", totalCorrect);
             intAct.PutExtra("TotalScore", totalCorrect);
             intAct.PutExtras(Intent);   // Include existing info- username, etc.

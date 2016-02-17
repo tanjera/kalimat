@@ -20,9 +20,19 @@ namespace Kalimat.Droid
             base.OnCreate(savedInstanceState);
             Data_Local dLoc = new Data_Local();
 
-            ListAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, Enum.GetNames(typeof(Languages)));
+            ListAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, dLoc.List_Languages());
 
-            ListView.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => {
+            if (dLoc.List_Languages().Count == 0)
+            {
+                AlertDialog.Builder alertEmpty = new AlertDialog.Builder(this);
+                alertEmpty.SetTitle("No Stacks Found");
+                alertEmpty.SetMessage("You don't have any stacks! You can get some from the online store.");
+                alertEmpty.SetPositiveButton("OK", delegate { Finish(); });
+                alertEmpty.SetCancelable(false);
+                alertEmpty.Show();
+            }
+
+                ListView.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => {
                 Intent intAct = new Intent(this, typeof(actLibraryListStacks));
                 intAct.PutExtra("Language", ListView.GetItemAtPosition(e.Position).ToString());
                 intAct.PutExtras(Intent);   // Include existing info- username, etc.

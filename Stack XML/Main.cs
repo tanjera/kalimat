@@ -14,15 +14,10 @@ namespace StackXML
 {
     public partial class Main : Form
     {
-        enum WordPair
-        {
-            Target,
-            Source
-        }
-
         enum Languages
         {
             Arabic,
+            French,
             Spanish
         }
 
@@ -110,6 +105,11 @@ namespace StackXML
             {
                 mysqlConnect.Close();
             }
+        }
+
+        private void LowerCase(object sender, EventArgs e)
+        {
+            txtWordPairs.Text = txtWordPairs.Text.ToLower();
         }
     }
 }

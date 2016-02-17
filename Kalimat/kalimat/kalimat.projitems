@@ -14,7 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Player.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data_Server.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SQLite.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Library.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Stack.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Library_Stack.xml" />

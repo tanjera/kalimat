@@ -21,12 +21,10 @@ namespace Kalimat.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-
             SetContentView(Resource.Layout.actLibraryViewStack);
-            string incStackName = Intent.GetStringExtra("Stack");
 
-            Stacks mainStacks = new Stacks();
-            Stack thisStack = mainStacks.GetStack(incStackName);
+            Data_Local dLoc = new Data_Local();
+            Stack thisStack = dLoc.Stack_Get(Intent.GetStringExtra("StackUID"));
 
             this.Title = thisStack.Title;
 
@@ -46,7 +44,6 @@ namespace Kalimat.Droid
             btnStartQuiz.Click += (object sender, EventArgs e) =>
             {
                 Intent intAct = new Intent(this, typeof(actQuizStack));
-                intAct.PutExtra("Stack", Intent.GetStringExtra("Stack"));
                 intAct.PutExtras(Intent);   // Include existing info- username, etc.
                 StartActivity(intAct);
             };

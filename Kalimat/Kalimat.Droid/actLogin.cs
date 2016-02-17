@@ -25,7 +25,7 @@ namespace Kalimat.Droid.Resources.layout
             TextView txtPassword = FindViewById<TextView>(Resource.Id.txtfldPassword);
 
             Data_Local dLoc = new Data_Local();
-            Player thisPlayer = dLoc.GetPlayer();
+            Player thisPlayer = dLoc.Player_Get();
             AlertDialog.Builder alertExisting = new AlertDialog.Builder(this);
             if (thisPlayer == null)
             {
@@ -60,7 +60,7 @@ namespace Kalimat.Droid.Resources.layout
                     alertLogin.SetMessage("You have been logged in.");
                     alertLogin.SetPositiveButton("OK", delegate 
                     {
-                        dLoc.AddPlayer(new Player(txtUsername.Text));
+                        dLoc.Player_Add(new Player(txtUsername.Text));
                         Intent intAct = new Intent(this, typeof(actMainMenu));
                         intAct.PutExtra("Username", txtUsername.Text);
                         StartActivity(intAct);

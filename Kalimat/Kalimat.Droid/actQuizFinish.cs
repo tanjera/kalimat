@@ -21,9 +21,8 @@ namespace Kalimat.Droid
 
             SetContentView(Resource.Layout.actQuizFinish);
 
-            string incStackName = Intent.GetStringExtra("Stack");
-            Stacks mainStacks = new Stacks();
-            Stack thisStack = mainStacks.GetStack(incStackName);
+            Data_Local dLoc = new Data_Local();
+            Stack thisStack = dLoc.Stack_Get(Intent.GetStringExtra("StackUID"));
 
             TextView txtTitle = FindViewById<TextView>(Resource.Id.txtTitle);
             TextView txtScores = FindViewById<TextView>(Resource.Id.txtScores);
@@ -31,7 +30,7 @@ namespace Kalimat.Droid
 
             txtTitle.Text = String.Format("You completed {0}!", thisStack.Title);
             txtScores.Text = String.Format("Correct {0} / {1}.\n\r\n\rYou earned {2} points!",
-                Intent.GetIntExtra("TotalCorrect", 0), thisStack.WordPairs.Count, Intent.GetIntExtra("TotalScore", 0));
+                Intent.GetIntExtra("TotalCorrect", 0), thisStack.WordPairs().Count, Intent.GetIntExtra("TotalScore", 0));
 
             btnContinue.Click += (object sender, EventArgs e) =>
             { Finish(); };

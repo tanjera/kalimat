@@ -18,7 +18,7 @@ namespace Kalimat.Droid
             SetContentView(Resource.Layout.actMainMenu);
 
             Data_Local dLoc = new Data_Local();
-            Player thisPlayer = dLoc.GetPlayer();
+            Player thisPlayer = dLoc.Player_Get();
 
             TextView txtPoints = FindViewById<TextView>(Resource.Id.mmPoints);
             TextView txtPlayer = FindViewById<TextView>(Resource.Id.mmPlayer);

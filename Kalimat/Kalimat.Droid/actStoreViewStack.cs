@@ -21,7 +21,7 @@ namespace Kalimat.Droid
             base.OnCreate(savedInstanceState);
             SetContentView(Resource.Layout.actStoreViewStack);
 
-            string incUID = Intent.GetStringExtra("Stack");     // WARNING: Switched from passing "Title" to "UID"...
+            string incUID = Intent.GetStringExtra("StackUID");
             Data_Server dServ = new Data_Server();
             Stack thisStack = dServ.Get_Stack(incUID);
 
@@ -31,10 +31,32 @@ namespace Kalimat.Droid
                 return;
             }
 
-                this.Title = String.Format("Store: {0}", thisStack.Title);
+            this.Title = String.Format("Store: {0}", thisStack.Title);
 
-                ListView lvWords = FindViewById<ListView>(Resource.Id.storeListWordPairs);
-                lvWords.Adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, thisStack.ListPairs());
+            ListView lvWords = FindViewById<ListView>(Resource.Id.storeListWordPairs);
+            lvWords.Adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, thisStack.ListPairs());
+
+            Button btnBuyStack = FindViewById<Button>(Resource.Id.storeBuyStack);
+            btnBuyStack.Click += (object sender, EventArgs e) => {
+                AlertDialog.Builder alertResult = new AlertDialog.Builder(this);
+                Data_Local dLoc = new Data_Local();
+                if (dLoc.Stack_Purchase(thisStack.UID))
+                {
+                    alertResult.SetTitle("Transaction Complete");
+                    alertResult.SetMessage("The transaction is complete! Thank you for playing Kalimat!");
+                    alertResult.SetPositiveButton("OK", delegate { Finish(); });
+                    alertResult.SetCancelable(false);
+                    alertResult.Show();
+                }
+                else
+                {
+                    alertResult.SetTitle("Transaction Failed");
+                    alertResult.SetMessage("There was an error with the transaction and it was cancelled.");
+                    alertResult.SetPositiveButton("OK", delegate { });
+                    alertResult.SetCancelable(false);
+                    alertResult.Show();
+                }
+            };
         }
 
         void ShowError()

@@ -53,15 +53,16 @@
             this.label13 = new System.Windows.Forms.Label();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.btnInsert = new System.Windows.Forms.Button();
+            this.btnMakeLower = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numPoints)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numDollars)).BeginInit();
             this.SuspendLayout();
             // 
             // btnFormat
             // 
-            this.btnFormat.Location = new System.Drawing.Point(15, 515);
+            this.btnFormat.Location = new System.Drawing.Point(95, 515);
             this.btnFormat.Name = "btnFormat";
-            this.btnFormat.Size = new System.Drawing.Size(300, 38);
+            this.btnFormat.Size = new System.Drawing.Size(220, 38);
             this.btnFormat.TabIndex = 14;
             this.btnFormat.Text = "Format to XML";
             this.btnFormat.UseVisualStyleBackColor = true;
@@ -195,14 +196,17 @@
             // 
             // txtWordPairs
             // 
+            this.txtWordPairs.AcceptsReturn = true;
+            this.txtWordPairs.AcceptsTab = true;
+            this.txtWordPairs.AllowDrop = true;
             this.txtWordPairs.Location = new System.Drawing.Point(15, 258);
             this.txtWordPairs.Multiline = true;
             this.txtWordPairs.Name = "txtWordPairs";
             this.txtWordPairs.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.txtWordPairs.Size = new System.Drawing.Size(300, 251);
             this.txtWordPairs.TabIndex = 13;
-            this.txtWordPairs.Text = "Enter word pairs on alternating lines, e.g.:\r\n\r\nSpanish word 1 (target language)\r" +
-    "\nEnglish word 1 (source languge)\r\nSpanish word 2 (target language)\r\nEnglish word" +
+            this.txtWordPairs.Text = "enter word pairs on alternating lines, e.g.:\r\n\r\nspanish word 1 (target language)\r" +
+    "\nenglish word 1 (source languge)\r\nspanish word 2 (target language)\r\nenglish word" +
     " 2 (source languge)";
             this.txtWordPairs.WordWrap = false;
             // 
@@ -218,6 +222,11 @@
             // numPoints
             // 
             this.numPoints.Location = new System.Drawing.Point(89, 143);
+            this.numPoints.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
             this.numPoints.Name = "numPoints";
             this.numPoints.Size = new System.Drawing.Size(120, 20);
             this.numPoints.TabIndex = 10;
@@ -226,6 +235,11 @@
             // 
             this.numDollars.DecimalPlaces = 2;
             this.numDollars.Location = new System.Drawing.Point(89, 169);
+            this.numDollars.Maximum = new decimal(new int[] {
+            1215752191,
+            23,
+            0,
+            0});
             this.numDollars.Name = "numDollars";
             this.numDollars.Size = new System.Drawing.Size(120, 20);
             this.numDollars.TabIndex = 11;
@@ -273,11 +287,22 @@
             this.btnInsert.UseVisualStyleBackColor = true;
             this.btnInsert.Click += new System.EventHandler(this.Insert);
             // 
+            // btnMakeLower
+            // 
+            this.btnMakeLower.Location = new System.Drawing.Point(15, 515);
+            this.btnMakeLower.Name = "btnMakeLower";
+            this.btnMakeLower.Size = new System.Drawing.Size(74, 38);
+            this.btnMakeLower.TabIndex = 30;
+            this.btnMakeLower.Text = "Make Lowercase";
+            this.btnMakeLower.UseVisualStyleBackColor = true;
+            this.btnMakeLower.Click += new System.EventHandler(this.LowerCase);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(712, 565);
+            this.Controls.Add(this.btnMakeLower);
             this.Controls.Add(this.btnInsert);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.txtPassword);
@@ -339,6 +364,7 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Button btnInsert;
+        private System.Windows.Forms.Button btnMakeLower;
     }
 }
 
