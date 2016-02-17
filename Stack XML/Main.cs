@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-
+using MySql.Data.MySqlClient;
 using System.Windows.Forms;
 
 namespace StackXML
@@ -69,6 +69,47 @@ namespace StackXML
             }
 
             txtOutput.AppendText("</stack>");
+        }
+
+        private void Insert(object sender, EventArgs e)
+        {
+            string dbHost = "kalimat.tanjera.com";
+            string dbBase = "tanjera_kalimat";
+            string dbTable = "stacks";
+
+             MySqlConnection mysqlConnect= new MySqlConnection();
+            mysqlConnect.ConnectionString = String.Format(
+                "Server={0};Database={1};Uid={2};Pwd={3};SslMode=Preferred;CharSet=utf8;",
+                dbHost, dbBase, txtUser.Text, txtPassword.Text);
+
+            MySqlCommand mysqlCommand = new MySqlCommand();
+            mysqlCommand.Connection = mysqlConnect;
+            mysqlCommand.CommandType = CommandType.Text;
+            mysqlCommand.CommandText =
+            String.Format(@"INSERT into {0} (uid, title, description, price_points, price_dollars, language, xml)
+                VALUES (@uid, @title, @description, @price_points, @price_dollars, @language, @xml)", dbTable);
+            mysqlCommand.Parameters.AddWithValue("@uid", txtUID.Text);
+            mysqlCommand.Parameters.AddWithValue("@title", txtTitle.Text);
+            mysqlCommand.Parameters.AddWithValue("@description", txtDesc.Text);
+            mysqlCommand.Parameters.AddWithValue("@price_points", numPoints.Value);
+            mysqlCommand.Parameters.AddWithValue("@price_dollars", numPoints.Value);
+            mysqlCommand.Parameters.AddWithValue("@language", cmbLanguage.Text);
+            mysqlCommand.Parameters.AddWithValue("@xml", txtOutput.Text);
+
+            try
+            {
+                mysqlConnect.Open();
+                int recordsAdded = mysqlCommand.ExecuteNonQuery();
+                MessageBox.Show(String.Format("Connection successful. {0} records added!", recordsAdded));
+            }
+            catch (MySqlException except)
+            {
+                MessageBox.Show(except.Message);
+            }
+            finally
+            {
+                mysqlConnect.Close();
+            }
         }
     }
 }

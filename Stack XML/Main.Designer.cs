@@ -48,6 +48,11 @@
             this.label9 = new System.Windows.Forms.Label();
             this.numPoints = new System.Windows.Forms.NumericUpDown();
             this.numDollars = new System.Windows.Forms.NumericUpDown();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtUser = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtPassword = new System.Windows.Forms.TextBox();
+            this.btnInsert = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numPoints)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numDollars)).BeginInit();
             this.SuspendLayout();
@@ -57,7 +62,7 @@
             this.btnFormat.Location = new System.Drawing.Point(15, 515);
             this.btnFormat.Name = "btnFormat";
             this.btnFormat.Size = new System.Drawing.Size(300, 38);
-            this.btnFormat.TabIndex = 0;
+            this.btnFormat.TabIndex = 14;
             this.btnFormat.Text = "Format to XML";
             this.btnFormat.UseVisualStyleBackColor = true;
             this.btnFormat.Click += new System.EventHandler(this.Format);
@@ -182,9 +187,10 @@
             this.txtOutput.Location = new System.Drawing.Point(337, 12);
             this.txtOutput.Multiline = true;
             this.txtOutput.Name = "txtOutput";
+            this.txtOutput.ReadOnly = true;
             this.txtOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtOutput.Size = new System.Drawing.Size(363, 541);
-            this.txtOutput.TabIndex = 18;
+            this.txtOutput.Size = new System.Drawing.Size(363, 432);
+            this.txtOutput.TabIndex = 15;
             this.txtOutput.WordWrap = false;
             // 
             // txtWordPairs
@@ -224,11 +230,59 @@
             this.numDollars.Size = new System.Drawing.Size(120, 20);
             this.numDollars.TabIndex = 11;
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(334, 466);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(32, 13);
+            this.label11.TabIndex = 24;
+            this.label11.Text = "User:";
+            // 
+            // txtUser
+            // 
+            this.txtUser.Location = new System.Drawing.Point(411, 463);
+            this.txtUser.Name = "txtUser";
+            this.txtUser.Size = new System.Drawing.Size(289, 20);
+            this.txtUser.TabIndex = 17;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(334, 492);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(56, 13);
+            this.label13.TabIndex = 26;
+            this.label13.Text = "Password:";
+            // 
+            // txtPassword
+            // 
+            this.txtPassword.Location = new System.Drawing.Point(411, 489);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(289, 20);
+            this.txtPassword.TabIndex = 18;
+            this.txtPassword.UseSystemPasswordChar = true;
+            // 
+            // btnInsert
+            // 
+            this.btnInsert.Location = new System.Drawing.Point(337, 515);
+            this.btnInsert.Name = "btnInsert";
+            this.btnInsert.Size = new System.Drawing.Size(363, 38);
+            this.btnInsert.TabIndex = 29;
+            this.btnInsert.Text = "Insert to Database";
+            this.btnInsert.UseVisualStyleBackColor = true;
+            this.btnInsert.Click += new System.EventHandler(this.Insert);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(712, 565);
+            this.Controls.Add(this.btnInsert);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.txtPassword);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.txtUser);
             this.Controls.Add(this.numDollars);
             this.Controls.Add(this.numPoints);
             this.Controls.Add(this.label9);
@@ -280,6 +334,11 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.NumericUpDown numPoints;
         private System.Windows.Forms.NumericUpDown numDollars;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.TextBox txtUser;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox txtPassword;
+        private System.Windows.Forms.Button btnInsert;
     }
 }
 
