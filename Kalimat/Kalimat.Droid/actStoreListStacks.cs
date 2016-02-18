@@ -20,7 +20,7 @@ namespace Kalimat.Droid
             base.OnCreate(savedInstanceState);
 
             Data_Server dServ = new Data_Server();
-            List<Stack> incLang = dServ.Get_StackList(Intent.GetStringExtra("Language"));
+            List<Stack> incLang = dServ.Stack_GetList(Intent.GetStringExtra("Language"));
 
             List<string> listUIDs = new List<string>();
             incLang.ForEach(obj => listUIDs.Add(obj.UID));

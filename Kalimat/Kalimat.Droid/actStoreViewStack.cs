@@ -23,7 +23,7 @@ namespace Kalimat.Droid
 
             string incUID = Intent.GetStringExtra("StackUID");
             Data_Server dServ = new Data_Server();
-            Stack thisStack = dServ.Get_Stack(incUID);
+            Stack thisStack = dServ.Stack_Get(incUID);
 
             if (thisStack == null)
             {
@@ -38,25 +38,79 @@ namespace Kalimat.Droid
 
             Button btnBuyStack = FindViewById<Button>(Resource.Id.storeBuyStack);
             btnBuyStack.Click += (object sender, EventArgs e) => {
+
                 AlertDialog.Builder alertResult = new AlertDialog.Builder(this);
                 Data_Local dLoc = new Data_Local();
-                if (dLoc.Stack_Purchase(thisStack.UID))
+
+                if (thisStack.Price_Points > 0)
                 {
-                    alertResult.SetTitle("Transaction Complete");
-                    alertResult.SetMessage("The transaction is complete! Thank you for playing Kalimat!");
-                    alertResult.SetPositiveButton("OK", delegate { Finish(); });
-                    alertResult.SetCancelable(false);
-                    alertResult.Show();
+                    if (dServ.Player_Points_Get(Intent.GetStringExtra("Username")) > thisStack.Price_Points)
+                    {
+                        alertResult.SetTitle("Points or Dollars?");
+                        alertResult.SetMessage("Would you like to make this purchase with in-game points or real money?");
+                        alertResult.SetPositiveButton("Points", delegate { Purchase_Points(thisStack.UID); });
+                        alertResult.SetNegativeButton("Money", delegate { Purchase_Money(thisStack.UID); });   
+                        alertResult.SetCancelable(true);
+                        alertResult.Show();
+                    }
+                    else
+                        Purchase_Money(thisStack.UID);
                 }
-                else
-                {
-                    alertResult.SetTitle("Transaction Failed");
-                    alertResult.SetMessage("There was an error with the transaction and it was cancelled.");
-                    alertResult.SetPositiveButton("OK", delegate { });
-                    alertResult.SetCancelable(false);
-                    alertResult.Show();
-                }
+                else 
+                    Purchase_Free(thisStack.UID);
             };
+        }
+
+        void Purchase_Free(string incUID)
+        {
+            AlertDialog.Builder alertResult = new AlertDialog.Builder(this);
+            Data_Local dLoc = new Data_Local();
+
+            if (dLoc.Stack_Purchase(Intent.GetStringExtra("Username"), incUID))
+            {
+                alertResult.SetTitle("Transaction Complete");
+                alertResult.SetMessage("The transaction is complete! Thank you for playing Kalimat!");
+                alertResult.SetPositiveButton("OK", delegate { Finish(); });
+                alertResult.SetCancelable(false);
+                alertResult.Show();
+            }
+            else
+            {
+                alertResult.SetTitle("Transaction Failed");
+                alertResult.SetMessage("There was an error with the transaction and it was cancelled.");
+                alertResult.SetPositiveButton("OK", delegate { });
+                alertResult.SetCancelable(false);
+                alertResult.Show();
+            }
+        }
+
+        void Purchase_Points(string incUID)
+        {
+            // IMPLEMENT PURCHASE
+            AlertDialog.Builder alertResult = new AlertDialog.Builder(this);
+            Data_Local dLoc = new Data_Local();
+
+            if (dLoc.Stack_Purchase_Points(Intent.GetStringExtra("Username"), incUID))
+            {
+                alertResult.SetTitle("Transaction Complete");
+                alertResult.SetMessage("The transaction is complete and was made with points. Thank you for playing Kalimat!");
+                alertResult.SetPositiveButton("OK", delegate { Finish(); });
+                alertResult.SetCancelable(false);
+                alertResult.Show();
+            }
+            else
+            {
+                alertResult.SetTitle("Transaction Failed");
+                alertResult.SetMessage("There was an error with the transaction and it was cancelled. You were not charged any points or money.");
+                alertResult.SetPositiveButton("OK", delegate { });
+                alertResult.SetCancelable(false);
+                alertResult.Show();
+            }
+        }
+
+        void Purchase_Money(string incUID)
+        {
+            // IMPLEMENT STORE
         }
 
         void ShowError()

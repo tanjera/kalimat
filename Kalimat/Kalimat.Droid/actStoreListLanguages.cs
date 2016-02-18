@@ -20,7 +20,7 @@ namespace Kalimat.Droid
             base.OnCreate(savedInstanceState);
 
             Data_Server dServ = new Data_Server();
-            List<string> incLang = dServ.Get_Languages();
+            List<string> incLang = dServ.Languages_Get();
 
             ListAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, incLang.ToArray());
 

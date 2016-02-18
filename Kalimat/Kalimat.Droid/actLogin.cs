@@ -51,7 +51,7 @@ namespace Kalimat.Droid.Resources.layout
 
             btnLogin.Click += (object sender, EventArgs e) => {
                 Data_Server srvClass = new Data_Server();
-                bool loginValid = srvClass.Login(txtUsername.Text, txtPassword.Text);
+                bool loginValid = srvClass.Player_Login(txtUsername.Text, txtPassword.Text);
                 AlertDialog.Builder alertLogin = new AlertDialog.Builder(this);
 
                 if (loginValid)

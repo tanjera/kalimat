@@ -25,7 +25,7 @@ namespace Kalimat.Droid
             Button btnViewLibrary = FindViewById<Button>(Resource.Id.mmViewLibrary);
             Button btnViewStore = FindViewById<Button>(Resource.Id.mmViewStore);
 
-            txtPoints.Text = String.Format("{0} Points", thisPlayer.Points);
+            txtPoints.Text = String.Format("{0} pts", thisPlayer.Points);
             txtPlayer.Text = thisPlayer.Username;
 
             btnViewLibrary.Click += (object sender, EventArgs e) =>

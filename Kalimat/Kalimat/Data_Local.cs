@@ -92,7 +92,7 @@ namespace Kalimat
             db.Close();
             return false;
         }
-        public bool Stack_Purchase(string incUID)
+        public bool Stack_Purchase(string incUsername, string incUID)
         {
             if (Stack_Exists(incUID))
                 return false;   // Purchase failed, stack already exists locally
@@ -100,16 +100,34 @@ namespace Kalimat
             SQLiteConnection db = new SQLiteConnection(dbPath);
             Data_Server dServ = new Data_Server();
 
-            Stack incStack = dServ.Get_Stack(incUID);
-
-            if (incStack.Price_Points > 0 || incStack.Price_Dollars > 0)
-                // IMPLEMENT PURCHASING HERE!!!!
-                return false;
+            Stack incStack = dServ.Stack_Get(incUID);
 
             db.CreateTable<Stack>();
             db.Insert(incStack);
             db.Close();
             return true;
+        }
+        public bool Stack_Purchase_Points(string incUser, string incUID)
+        {
+            Data_Server dServ = new Data_Server();
+            Stack incStack = dServ.Stack_Get(incUID);
+            int i;
+            if ((i = dServ.Player_Points_Get(incUser)) < incStack.Price_Points
+                || !Stack_Purchase(incUser, incUID))
+                return false;
+            else
+            {
+                Player incPlayer = Player_Get();
+                // Update the player's bank locally
+                incPlayer.Points -= incStack.Price_Points;
+                SQLiteConnection db = new SQLiteConnection(dbPath);
+                db.InsertOrReplace(incPlayer);
+                db.Close();
+                // And update the player's bank on the server
+                dServ.Player_Points_Adjust(incUser, dServ.Stack_Get(incUID).Price_Points);
+
+                return true;
+            }
         }
 
         public List<string> List_Languages()
