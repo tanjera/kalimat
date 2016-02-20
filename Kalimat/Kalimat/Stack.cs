@@ -8,12 +8,6 @@ using SQLite;
 
 namespace Kalimat
 {
-    public enum WordPair
-    {
-        Target,
-        Source
-    }
-
     public class Stack
     {
         [Column("uid")]
@@ -93,7 +87,7 @@ namespace Kalimat
         {
             List<string> newPairs = new List<string>();
             foreach (string[] eachPair in WordPairs())
-                newPairs.Add(String.Format("{0} : {1}", eachPair[WordPair.Target.GetHashCode()], eachPair[WordPair.Source.GetHashCode()]));
+                newPairs.Add(String.Format("{0} : {1}", eachPair[0], eachPair[1]));
 
             return newPairs.ToArray();
         }
@@ -101,7 +95,7 @@ namespace Kalimat
         {
             List<string> newPairs = new List<string>();
             foreach (string[] eachPair in WordPairs())
-                newPairs.Add(eachPair[WordPair.Target.GetHashCode()]);
+                newPairs.Add(eachPair[0]);
 
             return newPairs.ToArray();
         }

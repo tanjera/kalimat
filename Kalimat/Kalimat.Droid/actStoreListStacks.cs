@@ -18,18 +18,19 @@ namespace Kalimat.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+            SetContentView(Resource.Layout.actStoreListStacks);
 
             Data_Server dServ = new Data_Server();
             List<Stack> incLang = dServ.Stack_GetList(Intent.GetStringExtra("Language"));
 
-            List<string> listUIDs = new List<string>();
-            incLang.ForEach(obj => listUIDs.Add(obj.UID));
+            List<string> listNames = new List<string>();
+            incLang.ForEach(obj => listNames.Add(obj.Title));
 
-            ListAdapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, listUIDs.ToArray());
+
 
             ListView.ItemClick += (object sender, AdapterView.ItemClickEventArgs e) => {
                     Intent intAct = new Intent(this, typeof(actStoreViewStack));
-                    intAct.PutExtra("StackUID", listUIDs[e.Position]);
+                    intAct.PutExtra("StackUID", listNames[e.Position]);
                     intAct.PutExtras(Intent);   // Include existing info- username, etc.
                     StartActivity(intAct);
                 };

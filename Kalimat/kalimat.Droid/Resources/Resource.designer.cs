@@ -114,11 +114,14 @@ namespace Kalimat.Droid
 			// aapt resource value: 0x7f050012
 			public const int space2 = 2131034130;
 			
-			// aapt resource value: 0x7f05001d
-			public const int storeBuyStack = 2131034141;
-			
 			// aapt resource value: 0x7f05001e
-			public const int storeListWordPairs = 2131034142;
+			public const int storeBuyStack = 2131034142;
+			
+			// aapt resource value: 0x7f05001f
+			public const int storeListWordPairs = 2131034143;
+			
+			// aapt resource value: 0x7f05001d
+			public const int storeStacksTable = 2131034141;
 			
 			// aapt resource value: 0x7f050006
 			public const int tableLayout1 = 2131034118;
@@ -182,7 +185,10 @@ namespace Kalimat.Droid
 			public const int actQuizStack = 2130903044;
 			
 			// aapt resource value: 0x7f030005
-			public const int actStoreViewStack = 2130903045;
+			public const int actStoreListStacks = 2130903045;
+			
+			// aapt resource value: 0x7f030006
+			public const int actStoreViewStack = 2130903046;
 			
 			static Layout()
 			{

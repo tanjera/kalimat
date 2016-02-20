@@ -83,45 +83,45 @@ namespace Kalimat.Droid
             pairAnswer = (Directions)thisRandom.Next(0, Enum.GetValues(typeof(Directions)).Length);
             pairTime = DateTime.Now;
 
-            btnWordCenter.Text = thisStack.WordPairs()[pairCurrent][WordPair.Target.GetHashCode()];
+            btnWordCenter.Text = thisStack.WordPairs()[pairCurrent][0];
 
             List<string[]> unusedPairs = new List<string[]>(thisStack.WordPairs());
             unusedPairs.RemoveAt(pairCurrent);
             int unusedIndex;
 
             if (pairAnswer == Directions.Up)    // Is this WordDirection the intended answer?
-                btnWordUp.Text = thisStack.WordPairs()[pairCurrent][WordPair.Source.GetHashCode()];    // If yes, display the PairCurrent word
+                btnWordUp.Text = thisStack.WordPairs()[pairCurrent][1];    // If yes, display the PairCurrent word
             else
             {   // Or else display a random pair word from a list of unused words... then remove the used word from the unused pile.
                 unusedIndex = thisRandom.Next(0, unusedPairs.Count);
-                btnWordUp.Text = unusedPairs[unusedIndex][WordPair.Source.GetHashCode()];
+                btnWordUp.Text = unusedPairs[unusedIndex][1];
                 unusedPairs.RemoveAt(unusedIndex);
             }
 
             if (pairAnswer == Directions.Left)
-                btnWordLeft.Text = thisStack.WordPairs()[pairCurrent][WordPair.Source.GetHashCode()];
+                btnWordLeft.Text = thisStack.WordPairs()[pairCurrent][1];
             else
             {
                 unusedIndex = thisRandom.Next(0, unusedPairs.Count);
-                btnWordLeft.Text = unusedPairs[unusedIndex][WordPair.Source.GetHashCode()];
+                btnWordLeft.Text = unusedPairs[unusedIndex][1];
                 unusedPairs.RemoveAt(unusedIndex);
             }
 
             if (pairAnswer == Directions.Right)
-                btnWordRight.Text = thisStack.WordPairs()[pairCurrent][WordPair.Source.GetHashCode()];
+                btnWordRight.Text = thisStack.WordPairs()[pairCurrent][1];
             else
             {
                 unusedIndex = thisRandom.Next(0, unusedPairs.Count);
-                btnWordRight.Text = unusedPairs[unusedIndex][WordPair.Source.GetHashCode()];
+                btnWordRight.Text = unusedPairs[unusedIndex][1];
                 unusedPairs.RemoveAt(unusedIndex);
             }
 
             if (pairAnswer == Directions.Down)
-                btnWordDown.Text = thisStack.WordPairs()[pairCurrent][WordPair.Source.GetHashCode()];
+                btnWordDown.Text = thisStack.WordPairs()[pairCurrent][1];
             else
             {
                 unusedIndex = thisRandom.Next(0, unusedPairs.Count);
-                btnWordDown.Text = unusedPairs[unusedIndex][WordPair.Source.GetHashCode()];
+                btnWordDown.Text = unusedPairs[unusedIndex][1];
                 unusedPairs.RemoveAt(unusedIndex);
             }
         }

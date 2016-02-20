@@ -124,7 +124,7 @@ namespace Kalimat
                 db.InsertOrReplace(incPlayer);
                 db.Close();
                 // And update the player's bank on the server
-                dServ.Player_Points_Adjust(incUser, dServ.Stack_Get(incUID).Price_Points);
+                dServ.Player_Purchase_Points(incUser, incStack.Price_Points, incStack.UID);
 
                 return true;
             }

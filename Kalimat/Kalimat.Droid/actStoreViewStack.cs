@@ -22,6 +22,7 @@ namespace Kalimat.Droid
             SetContentView(Resource.Layout.actStoreViewStack);
 
             string incUID = Intent.GetStringExtra("StackUID");
+            Data_Local dLoc = new Data_Local();
             Data_Server dServ = new Data_Server();
             Stack thisStack = dServ.Stack_Get(incUID);
 
@@ -37,28 +38,35 @@ namespace Kalimat.Droid
             lvWords.Adapter = new ArrayAdapter<string>(this, Android.Resource.Layout.SimpleListItem1, thisStack.ListPairs());
 
             Button btnBuyStack = FindViewById<Button>(Resource.Id.storeBuyStack);
-            btnBuyStack.Click += (object sender, EventArgs e) => {
 
-                AlertDialog.Builder alertResult = new AlertDialog.Builder(this);
-                Data_Local dLoc = new Data_Local();
-
-                if (thisStack.Price_Points > 0)
+            if (dLoc.Stack_Exists(thisStack.UID))
+                btnBuyStack.Text = "You already own this stack!";
+            else
+            {
+                btnBuyStack.Click += (object sender, EventArgs e) =>
                 {
-                    if (dServ.Player_Points_Get(Intent.GetStringExtra("Username")) > thisStack.Price_Points)
+
+                    AlertDialog.Builder alertResult = new AlertDialog.Builder(this);
+
+
+                    if (thisStack.Price_Points > 0)
                     {
-                        alertResult.SetTitle("Points or Dollars?");
-                        alertResult.SetMessage("Would you like to make this purchase with in-game points or real money?");
-                        alertResult.SetPositiveButton("Points", delegate { Purchase_Points(thisStack.UID); });
-                        alertResult.SetNegativeButton("Money", delegate { Purchase_Money(thisStack.UID); });   
-                        alertResult.SetCancelable(true);
-                        alertResult.Show();
+                        if (dServ.Player_Points_Get(Intent.GetStringExtra("Username")) > thisStack.Price_Points)
+                        {
+                            alertResult.SetTitle("Points or Dollars?");
+                            alertResult.SetMessage("Would you like to make this purchase with in-game points or real money?");
+                            alertResult.SetPositiveButton("Points", delegate { Purchase_Points(thisStack.UID); });
+                            alertResult.SetNegativeButton("Money", delegate { Purchase_Money(thisStack.UID); });
+                            alertResult.SetCancelable(true);
+                            alertResult.Show();
+                        }
+                        else
+                            Purchase_Money(thisStack.UID);
                     }
                     else
-                        Purchase_Money(thisStack.UID);
-                }
-                else 
-                    Purchase_Free(thisStack.UID);
-            };
+                        Purchase_Free(thisStack.UID);
+                };
+            }
         }
 
         void Purchase_Free(string incUID)

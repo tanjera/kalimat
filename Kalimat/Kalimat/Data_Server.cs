@@ -13,7 +13,7 @@ namespace Kalimat
         static string ScriptURL_GetStackList = "http://www.tanjera.com/kalimat_scripts/get-stacklist.php";
         static string ScriptURL_GetStack = "http://www.tanjera.com/kalimat_scripts/get-stack.php";
         static string ScriptURL_GetPlayerPoints = "http://www.tanjera.com/kalimat_scripts/get-playerpoints.php";
-        static string ScriptURL_SetPlayerPoints = "http://www.tanjera.com/kalimat_scripts/set-playerpoints.php";
+        static string ScriptURL_Transact = "http://www.tanjera.com/kalimat_scripts/transact.php";
 
         public bool Player_Login(string Username, string Password)
         {
@@ -146,9 +146,9 @@ namespace Kalimat
             return outPts;
         }
 
-        public bool Player_Points_Set(string incUser, int incPoints)
+        public bool Player_Deposit(string incUser, int incPoints)
         {
-            string reqURL = String.Format("{0}?Username={1}&Points={2}", ScriptURL_SetPlayerPoints, incUser, incPoints);
+            string reqURL = String.Format("{0}?Username={1}&Transaction=Deposit&Points={2}", ScriptURL_Transact, incUser, incPoints);
 
             HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create(reqURL);
             myRequest.Method = "GET";
@@ -163,14 +163,21 @@ namespace Kalimat
             return Result > 0;
         }
 
-        public bool Player_Points_Adjust(string incUser, int incAmount)
+        public bool Player_Purchase_Points(string incUser, int incPoints, string incItem)
         {
-            int Current = Player_Points_Get(incUser);
+            string reqURL = String.Format("{0}?Username={1}&Transaction=Purchase_Points&Points={2}&Item={3}", ScriptURL_Transact, incUser, incPoints, incItem);
 
-            if (Current - incAmount < 0)
-                return false;
+            HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create(reqURL);
+            myRequest.Method = "GET";
+            WebResponse myResponse = myRequest.GetResponse();
+            StreamReader sr = new StreamReader(myResponse.GetResponseStream(), System.Text.Encoding.UTF8);
 
-            return (Player_Points_Set(incUser, Current - incAmount));
+            int Result = int.Parse(sr.ReadToEnd());
+
+            sr.Close();
+            myResponse.Close();
+
+            return Result > 0;
         }
     }
 }
