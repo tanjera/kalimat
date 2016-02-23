@@ -72,7 +72,7 @@
       <SubType>AndroidResource</SubType>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\actStoreViewStack.axml" />
-    <AndroidResource Include="Resources\layout\actStoreListStacks.axml">
+    <AndroidResource Include="Resources\layout\fragStoreListStack.axml">
       <SubType>AndroidResource</SubType>
     </AndroidResource>
   </ItemGroup>

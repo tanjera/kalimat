@@ -25,8 +25,9 @@ namespace Kalimat.Droid.Resources.layout
             TextView txtPassword = FindViewById<TextView>(Resource.Id.txtfldPassword);
 
             Data_Local dLoc = new Data_Local();
-            Player thisPlayer = dLoc.Player_Get();
             AlertDialog.Builder alertExisting = new AlertDialog.Builder(this);
+            Player thisPlayer = dLoc.Player_Default();
+
             if (thisPlayer == null)
             {
                 alertExisting.SetTitle("No user found");

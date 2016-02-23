@@ -152,9 +152,9 @@ namespace Kalimat.Droid
         void StackComplete()
         {
             Intent intAct = new Intent(this, typeof(actQuizFinish));
-            intAct.PutExtra("TotalCorrect", totalCorrect);
-            intAct.PutExtra("TotalScore", totalCorrect);
             intAct.PutExtras(Intent);   // Include existing info- username, etc.
+            intAct.PutExtra("TotalCorrect", totalCorrect);
+            intAct.PutExtra("TotalScore", totalScore);
             StartActivity(intAct);
             Finish();
         }

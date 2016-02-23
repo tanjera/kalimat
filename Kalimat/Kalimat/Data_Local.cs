@@ -13,8 +13,43 @@ namespace Kalimat
         Environment.GetFolderPath(Environment.SpecialFolder.Personal),
         "kalimat.db3");
 
-        public Player Player_Get()
-        {
+        public Player Player_Get(string incUser)
+        {   // Returns the newest copy of the player
+            Data_Server dServ = new Data_Server();
+
+            SQLiteConnection db = new SQLiteConnection(dbPath);
+            db.CreateTable<Player>();
+
+            TableQuery<Player> qryPlayer = db.Table<Player>();
+
+            Player remPlayer = dServ.Player_Get(incUser);
+            Player locPlayer = null;
+            
+            foreach (Player eachPlayer in qryPlayer)
+                if (eachPlayer.Username == incUser)
+                    locPlayer = eachPlayer;
+
+            if (DateTime.Compare(locPlayer.Timestamp, remPlayer.Timestamp) < 0)
+            {
+                bool existsLocally = locPlayer != null;
+                locPlayer = remPlayer;
+                if (existsLocally)
+                    db.InsertOrReplace(locPlayer);
+                db.Close();
+                return remPlayer;
+            }
+            else
+            {
+                dServ.Player_Update(locPlayer);
+                return locPlayer;
+            }
+        }
+
+        public Player Player_Default()
+        {   // Query to see if any player exists locally
+
+            Data_Server dServ = new Data_Server();
+
             SQLiteConnection db = new SQLiteConnection(dbPath);
             db.CreateTable<Player>();
 
@@ -29,7 +64,7 @@ namespace Kalimat
             {
                 Player toReturn = qryPlayer.ElementAt(0);
                 db.Close();
-                return toReturn;
+                return Player_Get(toReturn.Username);
             }
         }
         public bool Player_Exists(Player incPlayer)
@@ -57,6 +92,22 @@ namespace Kalimat
             db.CreateTable<Player>();
             db.Insert(incPlayer);
             db.Close();
+            return true;
+        }
+        public bool Player_Deposit_Quiz(string incUser, string incUID, int incPoints)
+        {
+            Data_Server dServ = new Data_Server();
+
+            Player incPlayer = Player_Get(incUser);
+            // Update the player's bank locally
+            incPlayer.Points += incPoints;
+            incPlayer.Timestamp = DateTime.Now;
+            SQLiteConnection db = new SQLiteConnection(dbPath);
+            db.InsertOrReplace(incPlayer);
+            db.Close();
+            // And update the player's bank on the server
+            dServ.Player_Deposit_Quiz(incUser, incPoints, incUID);
+
             return true;
         }
 
@@ -117,9 +168,10 @@ namespace Kalimat
                 return false;
             else
             {
-                Player incPlayer = Player_Get();
+                Player incPlayer = Player_Get(incUser);
                 // Update the player's bank locally
                 incPlayer.Points -= incStack.Price_Points;
+                incPlayer.Timestamp = DateTime.Now;
                 SQLiteConnection db = new SQLiteConnection(dbPath);
                 db.InsertOrReplace(incPlayer);
                 db.Close();

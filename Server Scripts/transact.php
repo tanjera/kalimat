@@ -14,8 +14,9 @@
     $conn->set_charset("utf8");
     
     
-    if($action == "Deposit") {
+    if($action == "Deposit" || $action == "Deposit_Quiz") {
       $points = $_GET["Points"];
+      $timestamp = $_GET["Timestamp"];
       
       $sql = "SELECT * FROM players WHERE username = '" . $user . "'";
       $result = $conn->query($sql);
@@ -26,11 +27,20 @@
         }
       }
       
-      $sql = "UPDATE players SET points = '" . ($currpoints + $points) . "' WHERE username = '" . $user . "'";
+      $sql = "UPDATE players SET points = '" . ($currpoints + $points) . "', timestamp = '" . $timestamp . "' WHERE username = '" . $user . "'";
       $result = $conn->query($sql);
       echo $conn->affected_rows;
       
-      $sql = "INSERT INTO transactions (username, action, points) VALUES('$user', '$action', '$points')";
+      $item = $_GET["Item"];
+      if (empty($item))
+      {
+        $sql = "INSERT INTO transactions (username, action, points) VALUES('$user', '$action', '$points')";
+      }
+      else
+      {
+        $sql = "INSERT INTO transactions (username, action, points, item) VALUES('$user', '$action', '$points', '$item')";
+      }
+      
       $result = $conn->query($sql);
       echo $conn->affected_rows;
       
@@ -40,6 +50,7 @@
     if($action == "Purchase_Points") {
       $points = $_GET["Points"];
       $item = $_GET["Item"];
+      $timestamp = $_GET["Timestamp"];
       
       $sql = "SELECT * FROM players WHERE username = '" . $user . "'";
       $result = $conn->query($sql);
@@ -50,7 +61,7 @@
         }
       }
       
-      $sql = "UPDATE players SET points = '" . ($currpoints - $points) . "' WHERE username = '" . $user . "'";
+      $sql = "UPDATE players SET points = '" . ($currpoints - $points) . "', timestamp = '" . $timestamp . "' WHERE username = '" . $user . "'";
       $result = $conn->query($sql);
       echo $conn->affected_rows;
       

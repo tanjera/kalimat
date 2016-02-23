@@ -94,7 +94,6 @@ namespace Kalimat.Droid
 
         void Purchase_Points(string incUID)
         {
-            // IMPLEMENT PURCHASE
             AlertDialog.Builder alertResult = new AlertDialog.Builder(this);
             Data_Local dLoc = new Data_Local();
 
